@@ -96,12 +96,53 @@ Scrabble.highestScoreFrom = function(arrayOfWords) {
 console.log(Scrabble.highestScoreFrom(["Snake", "Bee", "Hillary", "Yo", "What"])); // Hillary
 console.log(Scrabble.highestScoreFrom(["Bee", "Snake", "Iguana"])); // Snake
 console.log(Scrabble.highestScoreFrom(["Aaaaaaa", "Iguana"])); // Aaaaaaa
-console.log("******* End of highestScoreFrom *******")
+console.log("******* End of highestScoreFrom *******");
 
 
-Scrabble.prototype.helloWorld = function() {
-  return 'hello world!';
+
+var Player = function(name) {
+  this.name = name;
+  this.plays = [];
+
+  // Plays a word unless player has already won
+  this.play = function(word) {
+    if (this.hasWon()) {
+      return false;
+    }
+    else {
+      this.plays.push(word);
+    }
+  };
+
+  // Returns the player's total score
+  this.totalScore = function() {
+    var total = 0;
+    for (var i = 0; i < this.plays.length; i++) {
+      total += Scrabble.score(this.plays[i]);
+    }
+    return total;
+  };
+
+  // Returns boolean of whether won or not
+  this.hasWon = function() {
+    return this.totalScore() > 100;
+  };
+
+  // Returns highest individual word score for player
+  this.highestScoringWord = function() {
+    return Scrabble.highestScoreFrom(this.plays);
+  };
+
+  // Returns highest scoring word for player
+  this.highestWordScore = function () {
+    return Scrabble.score(this.highestScoringWord());
+  };
+
+
 };
+
+
+
 
 
 
